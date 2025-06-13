@@ -1,8 +1,16 @@
-import { Prisma, PrismaClient } from "@prisma/client";
 import { prisma } from "../prisma/client";
 
+interface CreateDeveloperDTO {
+  name: string;
+  email: string;
+  bio: string;
+  github_url: string;
+  avatar_url: string;
+  techs?: string[];
+}
+
 class DevService {
-  public async register(devData: Prisma.DeveloperUncheckedCreateInput) {
+  public async register(devData: CreateDeveloperDTO) {
     try {
       const dev = await prisma.developer.create({
         data: devData,
@@ -36,6 +44,10 @@ class DevService {
 
   public async updateTechs(id: string, techs: string[]) {
     try {
+      const devEx = await prisma.developer.findUnique({ where: { id } });
+      if (!devEx) {
+        throw new Error("Desenvolvedor não encontrado");
+      }
       return await prisma.developer.update({
         where: { id },
         data: { techs },
