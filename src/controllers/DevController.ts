@@ -73,4 +73,3 @@ export async function DevController(app: FastifyInstance) {
     }
   });
 }
-//testando o commit
