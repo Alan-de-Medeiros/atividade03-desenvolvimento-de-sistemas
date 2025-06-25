@@ -40,4 +40,17 @@ export async function DeveloperController(app: FastifyInstance) {
       return reply.code(204).send();
     }
   );
+
+  app.patch(
+    "/dev/:id",
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const params = request.params as { id : string };
+      const body = request.body as { techs: string[] };
+
+      await developerService.updateTechs(params.id, body.techs);
+
+      return reply.code(200).send();
+    }
+  );
 }
+

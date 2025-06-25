@@ -48,6 +48,17 @@ class DeveloperService {
             data: updateDev
         })
     }
+
+    public async updateTechs(id: string, techs: string[]) {
+     await prisma.developer.update({
+        where: { id: id },
+        data: {
+            techs: techs,
+            updated_at: new Date()
+        }
+     })
+    }
+
 }
 
 export const developerService = new DeveloperService();
